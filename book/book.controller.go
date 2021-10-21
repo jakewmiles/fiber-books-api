@@ -2,21 +2,18 @@ package book
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 )
 
-type Book struct {
-	gorm.Model
-	Title  string `json:"title"`
-	Author string `json:"author"`
-	Rating int    `json:"rating"`
-}
-
 func GetBooks(ctx *fiber.Ctx) error {
-	return ctx.SendString("All Book!")
+	var books []Book
+	DB.Find(&books)
+	return ctx.JSON(books)
 }
 func GetBook(ctx *fiber.Ctx) error {
-	return ctx.SendString("One Book!")
+	id := ctx.Params("id")
+	var book Book
+	DB.Find(&book, id)
+	return ctx.JSON(book)
 }
 func PostBook(ctx *fiber.Ctx) error {
 	return ctx.SendString("New Book!")
