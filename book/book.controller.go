@@ -18,10 +18,11 @@ func GetBook(ctx *fiber.Ctx) error {
 }
 
 func PostBook(ctx *fiber.Ctx) error {
-	var book Book
-	book.Title = "1984"
-	book.Author = "George Orwell"
-	book.Rating = 5
+	book := new(Book)
+	err := ctx.BodyParser(book)
+	if err != nil {
+		return ctx.Status(503).SendString(err.Error())
+	}
 	DB.Create(&book)
 	return ctx.JSON(book)
 }
