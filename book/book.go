@@ -1,6 +1,16 @@
 package book
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
+
+type Book struct {
+	gorm.Model
+	Title  string `json:"title"`
+	Author string `json:"author"`
+	Rating int    `json:"rating"`
+}
 
 func GetBooks(ctx *fiber.Ctx) error {
 	return ctx.SendString("All Book!")
